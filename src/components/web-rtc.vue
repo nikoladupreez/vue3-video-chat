@@ -17,7 +17,7 @@
 </template>
 
 <script>
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, watch } from 'vue';
     import { useStore } from 'vuex';
 
     export default {
@@ -32,6 +32,12 @@
             // onMounted
             onMounted(() => {
                 webcamVideo.value.srcObject = store.state.localStream;
+                if (store.state.remoteStream.active) remoteVideo.value.srcObject = store.state.remoteStream;
+            });
+
+            // Watcher
+            watch(() => store.state.remoteStream, (to, from) => {
+                if (remoteVideo.value) remoteVideo.value.srcObject = to;
             });
 
             return {

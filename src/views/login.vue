@@ -42,7 +42,8 @@
             const store = useStore();
             const router = useRouter();
             const { setUpConnection,
-                    createOffer } = useChat();
+                    createOffer,
+                    answerCall } = useChat();
 
             // Refs
             const inputObj = ref({
@@ -57,10 +58,10 @@
                 store.dispatch('joinChat', { inputObj: inputObj.value, router });
             };
 
-            const joinChat = () => {
+            const joinChat = async () => {
                 if (!inputObj.value.userName || !inputObj.value.chatId) return;
+                await answerCall(inputObj.value.chatId, store.state.pc);
                 store.dispatch('joinChat', { inputObj: inputObj.value, router });
-                console.log('join chat');
             }
 
             // Set up connection

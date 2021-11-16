@@ -63,7 +63,7 @@ export function useChat() {
         const offerCandidates = callDoc.collection('offerCandidates');
         const answerCandidates = callDoc.collection('answerCandidates');
 
-        // Get candidates for caller, save to db
+        // Get offer candidates, save to db
         pc.onicecandidate = (event) => {
             event.candidate && offerCandidates.add(event.candidate.toJSON());
         };
@@ -102,6 +102,44 @@ export function useChat() {
         return callDoc.id;
     };
 
+    const answerCall = async (id, pc) => {
+        // Reference Firestore collections for signaling
+        const callDoc = firestore.collection('calls').doc(id);
+        const answerCandidates = callDoc.collection('answerCandidates');
+        const offerCandidates = callDoc.collection('offerCandidates');
+
+        // Get answer candidates, save to db
+        pc.onicecandidate = (event) => {
+            event.candidate && answerCandidates.add(event.candidate.toJSON());
+        };
+
+        // Get existing call data and set offer
+        const callData = (await callDoc.get()).data();
+        const offerDescription = callData.offer;
+        await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
+
+        // Create answer
+        const answerDescription = await pc.createAnswer();
+        await pc.setLocalDescription(answerDescription);
+
+        const answer = {
+            type: answerDescription.type,
+            sdp: answerDescription.sdp,
+        };
+
+        await callDoc.update({ answer });
+
+        // When answered, add candidate to peer connection
+        offerCandidates.onSnapshot((snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                if (change.type === 'added') {
+                    let data = change.doc.data();
+                    pc.addIceCandidate(new RTCIceCandidate(data));
+                }
+            });
+        });
+    };
+
     const toggleMediaTrack = (media) => {
         // Turn off either audio or video
         media.enabled = !media.enabled;
@@ -110,6 +148,7 @@ export function useChat() {
     return {
         setUpConnection,
         createOffer,
-        toggleMediaTrack
+        answerCall,
+        toggleMediaTrack,
     }
 }
