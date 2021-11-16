@@ -24,8 +24,11 @@ export default {
 }
 </script>
 
-<style>
-    body {
-      margin: 0;
+<style lang="scss">
+    .view {
+        position: relative;
+        @include flex(flex-start, center, column);
+        width: 100vw;
+        height: 100vh;
     }
 </style>
