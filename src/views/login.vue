@@ -34,12 +34,14 @@
     import { ref } from 'vue';
     import { useStore } from 'vuex';
     import { useRouter } from 'vue-router';
+    import { useChat } from '@/firebase.js';
 
     export default {
         name: 'Login',
         async setup() {
             const store = useStore();
             const router = useRouter();
+            const { setUpConnection } = useChat();
 
             // Refs
             const inputObj = ref({
@@ -58,6 +60,9 @@
                 store.dispatch('joinChat', { inputObj: inputObj.value, router });
                 console.log('join chat');
             }
+
+            // Set up connection
+            await setUpConnection(store);
 
             return {
                 inputObj,

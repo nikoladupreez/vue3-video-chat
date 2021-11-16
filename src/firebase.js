@@ -23,3 +23,41 @@ const servers = {
     }],
     iceCandidatePoolSize: 10,
 };
+
+
+// Usable
+export function useChat() {
+    const setUpConnection = async (store) => {
+        // Create peer connection and media streams
+        const pc = new RTCPeerConnection(servers);
+        const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        const remoteStream = new MediaStream();
+
+        // Push tracks from local stream to peer connection
+        localStream.getTracks().forEach((track) => {
+            pc.addTrack(track, localStream);
+        });
+
+        // Store local stream
+        store.commit('setLocalStream', localStream);
+
+        // Pull tracks that get added later and add to remote stream
+        pc.ontrack = (event) => {
+            event.streams[0].getTracks().forEach((track) => {
+                remoteStream.addTrack(track);
+
+                // Store remote stream
+                store.commit('setRemoteStream', remoteStream);
+            });
+        };
+
+        // Store peer connnection
+        store.commit('setPeerConnection', pc);
+
+        return;
+    };
+
+    return {
+        setUpConnection,
+    }
+}

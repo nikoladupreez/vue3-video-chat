@@ -6,6 +6,9 @@ import mutations from './mutations';
 const state = {
     userName: '',
     chatId: '',
+    pc: {},
+    localStream: {},
+    remoteStream: {},
 };
 
 export default createStore({
