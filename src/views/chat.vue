@@ -43,5 +43,14 @@
 </script>
 
 <style scoped lang="scss">
+    #view-chat {
+        background: $off-black;
 
+        .chat-container {
+            position: relative;
+            @include flex(center, center, row);
+            width: 100%;
+            height: 90%;
+        }
+    }
 </style>

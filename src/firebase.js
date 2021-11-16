@@ -143,6 +143,7 @@ export function useChat() {
     const toggleMediaTrack = (media) => {
         // Turn off either audio or video
         media.enabled = !media.enabled;
+        return media.enabled;
     };
 
     return {
