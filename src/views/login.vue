@@ -51,8 +51,6 @@
                 chatId: '',
             });
 
-            inputObj.value.userName = store.state.userName;
-
             // Methods
             const createChat = async () => {
                 if (!inputObj.value.userName) return;
@@ -65,6 +63,10 @@
                 await answerCall(inputObj.value.chatId, store.state.pc);
                 store.dispatch('joinChat', { inputObj: inputObj.value, router });
             }
+
+            // If name or id available, set fields
+            inputObj.value.userName = store.state.userName;
+            inputObj.value.chatId = store.state.chatId;
 
             // Set up connection
             await setUpConnection(store);

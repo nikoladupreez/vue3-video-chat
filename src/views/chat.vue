@@ -31,6 +31,9 @@
 
             // If not logged in, redirect to login view
             if (!store.state.userName) {
+                const id = router.currentRoute.value.query.id;
+                if (id) store.commit('setChatId', id);
+
                 router.push({
                     path: '/'
                 })

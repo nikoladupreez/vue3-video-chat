@@ -22,4 +22,12 @@ export default {
     toggleMessenger (state) {
         state.showMessenger = !state.showMessenger;
     },
+
+    setMessages (state, messages) {
+        state.messages = messages;
+    },
+
+    updateMessages (state, message) {
+        state.messages.push(message)
+    }
 };

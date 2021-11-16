@@ -1,26 +1,25 @@
 <template>
-    <div v-if="store.state.showMessenger" class="messenger">
+    <div class="messenger" :class="{hidden: !store.state.showMessenger}">
         <div class="messages">
             <div
                 v-for="message in store.state.messages"
                 :key="message.timeStamp"
-                class="message"
+                class="message-container"
                 :class="{local: message.userName === store.state.userName}">
-                {{ message.content }}
+                <p>{{message.userName}}</p>
+                <div class="message">{{ message.content }}</div>
             </div>
         </div>
         <div class="messenger-bar">
-            <!-- <div
-                ref="inputMessenger"
-                class="input"
-                contenteditable="true"
-                placeholder="Type message"></div> -->
             <input
                 type="text"
                 v-model="inputMessenger"
-                placeholder="Type message">
-            <button @click="onSend">Send</button>
-            <button class="button-gif">Gif</button>
+                placeholder="Type message"
+                @keyup.enter="onSend">
+            <button
+                class="button-send"
+                :disabled="!inputMessenger"
+                @click="onSend">></button>
         </div>
     </div>
 </template>
@@ -28,27 +27,34 @@
 <script>
     import { ref } from 'vue';
     import { useStore } from 'vuex';
+    import { useChat } from '@/firebase.js'
 
     export default {
         name: 'Messenger',
 
         async setup() {
             const store = useStore();
+            const { getMessages, sendMessage } = useChat();
 
             // Refs
             const inputMessenger = ref('');
 
             // Methods
             const onSend = async () => {
+                if (!inputMessenger.value) return;
+
                 const message = {
                     userName: store.state.userName,
                     content: inputMessenger.value,
                     timeStamp: new Date().toTimeString()
                 }
 
-                console.log('send message', message);
+                sendMessage(store.state.chatId, message);
                 inputMessenger.value = '';
             }
+
+            // Get messages
+            await getMessages(store, store.state.chatId);
 
             return {
                 store,
@@ -74,24 +80,45 @@
         background: $gray;
 
         &.hidden {
-            left: -100%;
+            right: -100%;
         }
 
         .messages {
             @include flex(flex-end, flex-start, column);
+            position: relative;
+            overflow: auto;
             width: 100%;
             height: 90%;
 
-            .message {
-                background: white;
-                margin-bottom: 10px;
-                border-radius: 20px;
-                padding: 5px 10px;
+            .message-container {
+                p {
+                    font-size: 10px;
+                }
+
+                .message {
+                    margin-bottom: 10px;
+                    border-radius: 20px;
+                    padding: 7px 15px;
+                    font-size: 13px;
+                    text-align: center;
+                    background: $blue;
+                    color: white;
+                }
 
                 &.local {
                     align-self: flex-end;
+
+                    p {
+                        text-align: right;
+                    }
+
+                    .message {
+                        background: white;
+                        color: $off-black;
+                    }
                 }
             }
+
         }
 
         .messenger-bar {
@@ -124,6 +151,17 @@
             .button-gif {
                 position: absolute;
                 right: 65px;
+            }
+
+            .button-send {
+                width: 30px;
+                height: 30px;
+                border: none;
+                background: none;
+
+                &:not(:disabled) {
+                    color: $blue;
+                }
             }
         }
     }

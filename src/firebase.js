@@ -146,10 +146,60 @@ export function useChat() {
         return media.enabled;
     };
 
+    const getMessages = async (store, id) => {
+        // Reference Firestore collections for signaling
+        const callDoc = firestore.collection('calls').doc(id);
+        const dbMessages = callDoc.collection('messages');
+        const messages = [];
+
+        // Get messages from db
+        await dbMessages.get().then(docs => {
+            docs.forEach(doc => {
+                messages.push({id: doc.id, ...doc.data()});
+            });
+        })
+
+        // When a message is added, push message to store
+        dbMessages.onSnapshot((snapshot) => {
+            snapshot.docChanges().forEach((change) => {
+                if (change.type === 'added') {
+                    const messageFound = messages.filter(message => {
+                        return message.id === change.doc.id;
+                    });
+
+                    if (messageFound.length < 1) store.commit('updateMessages', {id: change.doc.id, ...change.doc.data()});
+                }
+            })
+        })
+
+        // Sort messages based on time send
+        messages.sort((a, b) => {
+            return a.timeStamp.localeCompare(b.timeStamp);
+        })
+
+        // Store messages
+        store.commit('setMessages', messages);
+
+        return messages;
+    };
+
+    const sendMessage = (id, message) => {
+        // Reference Firestore collections for signaling
+        const callDoc = firestore.collection('calls').doc(id);
+        const messages = callDoc.collection('messages');
+
+        // Add message to collection
+        messages.add(message);
+
+        return message;
+    };
+
     return {
         setUpConnection,
         createOffer,
         answerCall,
         toggleMediaTrack,
+        getMessages,
+        sendMessage
     }
 }
