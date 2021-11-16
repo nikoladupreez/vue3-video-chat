@@ -1,6 +1,6 @@
 <template>
     <div class="control-bar">
-        <p class="chat-id">id:</p>
+        <p class="chat-id">id: {{store.state.chatId}}</p>
         <div class="buttons-center">
             <button class="button-chat" @click="toggleMediaTrack">Audio</button>
             <button class="button-chat" @click="toggleMediaTrack">Video</button>
@@ -11,9 +11,13 @@
 </template>
 
 <script>
+    import { useStore } from 'vuex';
+
     export default {
         name: 'ControlBar',
         async setup() {
+            const store = useStore();
+
             // Methods
             const onLeave = () => {
                 console.log('leave');
@@ -28,6 +32,7 @@
             }
 
             return {
+                store,
                 onLeave,
                 toggleMessenger,
                 toggleMediaTrack

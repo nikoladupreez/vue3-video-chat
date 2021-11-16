@@ -16,14 +16,22 @@
 </template>
 
 <script>
-    import { ref } from 'vue';
+    import { ref, onMounted } from 'vue';
+    import { useStore } from 'vuex';
 
     export default {
         name: 'WebRTC',
         async setup() {
+            const store = useStore();
+
             // Refs
             const webcamVideo =  ref(null);
             const remoteVideo =  ref(null);
+
+            // onMounted
+            onMounted(() => {
+                webcamVideo.value.srcObject = store.state.localStream;
+            });
 
             return {
                 webcamVideo,
