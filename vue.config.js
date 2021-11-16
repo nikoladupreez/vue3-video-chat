@@ -1,9 +1,12 @@
 module.exports = {
-    css: {
-      loaderOptions: {
-      sass: {
-        additionalData: `@import "@/assets/styles/index.scss";`,
-      },
-      },
+    devServer: {
+      https: true
     },
-  };
+    css: {
+        loaderOptions: {
+          sass: {
+              additionalData: `@import "@/assets/styles/index.scss";`,
+          },
+        },
+    }
+};
