@@ -19,8 +19,8 @@ export default {
         state.remoteStream = stream;
     },
 
-    toggleMessenger (state, forceClose) {
-        state.showMessenger = forceClose ? false : !state.showMessenger;
+    toggleMessenger (state) {
+        state.showMessenger = !state.showMessenger;
     },
 
     setMessages (state, messages) {
@@ -32,6 +32,8 @@ export default {
     },
 
     leaveChat (state) {
+        state.chatId = '';
+        state.showMessenger = false;
         state.pc.close();
     }
 };

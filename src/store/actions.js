@@ -9,8 +9,6 @@ export const joinChat = ({ commit }, payload) => {
 };
 
 export const leaveChat = ({ commit }, router) => {
-    commit('setChatId', '');
-    commit('toggleMessenger', true); // force close
     commit('leaveChat');
 
     router.push({
