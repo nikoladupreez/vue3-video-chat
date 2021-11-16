@@ -29,5 +29,9 @@ export default {
 
     updateMessages (state, message) {
         state.messages.push(message)
+    },
+
+    leaveChat (state) {
+        state.pc.close();
     }
 };
