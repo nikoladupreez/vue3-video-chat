@@ -86,7 +86,7 @@
         }
 
         h3 {
-            margin-bottom: 30px;
+            margin: 5px 0 30px 0;
         }
 
         .login-form {
