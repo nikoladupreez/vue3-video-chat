@@ -69,6 +69,7 @@
                 position: absolute;
                 top: 10px;
                 left: 10px;
+                z-index: 10;
                 margin: 0;
                 font-size: 12px;
                 color: $off-black;

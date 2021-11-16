@@ -51,8 +51,9 @@
 
         .chat-container {
             position: relative;
+            overflow: hidden;
             @include flex(center, center, row);
-            width: 100%;
+            width: 100vw;
             height: 90%;
         }
     }
