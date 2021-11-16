@@ -32,10 +32,15 @@
 
 <script>
     import { ref } from 'vue';
+    import { useStore } from 'vuex';
+    import { useRouter } from 'vue-router';
 
     export default {
         name: 'Login',
         async setup() {
+            const store = useStore();
+            const router = useRouter();
+
             // Refs
             const inputObj = ref({
                 userName: '',
@@ -44,10 +49,13 @@
 
             // Methods
             const createChat = () => {
-                console.log('create chat');
+                if (!inputObj.value.userName) return;
+                store.dispatch('joinChat', { inputObj: inputObj.value, router });
             };
 
             const joinChat = () => {
+                if (!inputObj.value.userName || !inputObj.value.chatId) return;
+                store.dispatch('joinChat', { inputObj: inputObj.value, router });
                 console.log('join chat');
             }
 
