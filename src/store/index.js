@@ -9,6 +9,8 @@ const state = {
     pc: {},
     localStream: {},
     remoteStream: {},
+    showMessenger: false,
+    messages: [],
 };
 
 export default createStore({

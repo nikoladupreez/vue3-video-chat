@@ -14,8 +14,10 @@
                 class="button-chat leave"
                 @click="store.dispatch('leaveChat', router);">Leave</button>
         </div>
-        <button class="button-chat messenger"
-        @click="toggleMessenger">Messenger</button>
+        <button
+            class="button-chat messenger"
+            :class="{ open: store.state.showMessenger}"
+            @click="store.commit('toggleMessenger');">Messenger</button>
     </div>
 </template>
 
@@ -40,11 +42,6 @@
             const audioTrack = computed(() => store.state.localStream.getAudioTracks()[0]);
             const videoTrack = computed(() => store.state.localStream.getVideoTracks()[0]);
 
-            // Methods
-            const toggleMessenger = () => {
-                console.log('toggle messenger');
-            };
-
             return {
                 store,
                 router,
@@ -52,7 +49,6 @@
                 videoIsOn,
                 audioTrack,
                 videoTrack,
-                toggleMessenger,
                 toggleMediaTrack
             }
         },
@@ -113,6 +109,10 @@
 
         .button-chat.messenger {
             right: 20px;
+
+            &.open {
+                background: $blue;
+            }
         }
     }
 </style>

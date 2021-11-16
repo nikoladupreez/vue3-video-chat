@@ -18,4 +18,8 @@ export default {
     setRemoteStream (state, stream) {
         state.remoteStream = stream;
     },
+
+    toggleMessenger (state) {
+        state.showMessenger = !state.showMessenger;
+    },
 };
