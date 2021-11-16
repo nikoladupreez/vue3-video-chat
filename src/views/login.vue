@@ -51,6 +51,8 @@
                 chatId: '',
             });
 
+            inputObj.value.userName = store.state.userName;
+
             // Methods
             const createChat = async () => {
                 if (!inputObj.value.userName) return;

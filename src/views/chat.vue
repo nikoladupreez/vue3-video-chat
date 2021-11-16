@@ -13,6 +13,8 @@
     import Messenger from '@/components/messenger';
     import WebRTC from '@/components/web-rtc';
     import ControlBar from '@/components/control-bar';
+    import { useStore } from 'vuex';
+    import { useRouter } from 'vue-router';
 
     export default {
         name: 'Chat',
@@ -24,6 +26,16 @@
         },
 
         async setup() {
+            const store = useStore();
+            const router = useRouter();
+
+            // If not logged in, redirect to login view
+            if (!store.state.userName) {
+                router.push({
+                    path: '/'
+                })
+            }
+
             return {
             }
         },

@@ -31,7 +31,7 @@
 
             // onMounted
             onMounted(() => {
-                webcamVideo.value.srcObject = store.state.localStream;
+                if (store.state.localStream.active) webcamVideo.value.srcObject = store.state.localStream;
                 if (store.state.remoteStream.active) remoteVideo.value.srcObject = store.state.remoteStream;
             });
 

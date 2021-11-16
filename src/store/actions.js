@@ -6,4 +6,12 @@ export const joinChat = ({ commit }, payload) => {
         path: `/chat`,
         query: { id: payload.inputObj.chatId }
     });
-}
+};
+
+export const leaveChat = ({ commit }, router) => {
+    commit('setChatId', '');
+
+    router.push({
+        path: `/`
+    });
+};
