@@ -1,5 +1,5 @@
 <template>
-    <div class="messenger" :class="{hidden: !store.state.showMessenger}">
+    <div v-show="store.state.showMessenger" class="messenger">
         <div class="messages">
             <div
                 v-for="message in store.state.messages"
@@ -80,10 +80,6 @@
         max-width: 300px;
         height: 95%;
         background: $gray;
-
-        &.hidden {
-            right: -100%;
-        }
 
         .messages {
             @include flex(flex-end, flex-start, column);

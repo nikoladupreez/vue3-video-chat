@@ -128,7 +128,7 @@
                     @include mobile {
                         margin-right: 15px;
                         padding: 10px;
-                        min-width: 80px;
+                        min-width: 90px;
                     }
                 }
 

@@ -1,6 +1,5 @@
 <template>
     <div class="control-bar">
-        <p class="chat-id">id: {{store.state.chatId}}</p>
         <div class="buttons-center">
             <button
                 class="button-chat"
@@ -70,7 +69,6 @@
         width: 100%;
         background: $off-black;
 
-        .chat-id,
         .buttons-center,
         .messenger {
             position: absolute;
@@ -108,17 +106,9 @@
             }
         }
 
-        .chat-id {
-            left: 20px;
-            margin: 0;
-            font-size: 13px;
-            font-weight: $light;
-            color: white;
-        }
-
         .buttons-center {
-            left: 50%;
-            transform: translate(-50%, -50%);
+            @include flex(center, center, row);
+            width: 100%;
 
             .button-chat {
                 margin: 0 5px;

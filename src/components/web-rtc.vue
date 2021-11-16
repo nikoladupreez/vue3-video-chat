@@ -1,6 +1,7 @@
 <template>
     <div class="webrtc">
         <div class="videos-container">
+            <p class="chat-id">id: {{store.state.chatId}}</p>
             <video
                 ref="webcamVideo"
                 class="webcam-video"
@@ -62,7 +63,19 @@
             position: relative;
             height: 100%;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1500px;
+
+            .chat-id {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                margin: 0;
+                font-size: 12px;
+                color: $off-black;
+                background: $gray;
+                border-radius: 5px;
+                padding: 5px;
+            }
 
             .webcam-video,
             .remote-video {
