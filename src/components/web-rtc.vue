@@ -5,6 +5,7 @@
                 ref="webcamVideo"
                 class="webcam-video"
                 autoplay
+                muted
                 playsinline></video>
             <video
                 ref="remoteVideo"
