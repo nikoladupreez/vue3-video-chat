@@ -50,11 +50,15 @@
 
             // Methods
             const createMessage = () => {
+                const date = new Date();
+                const dateString = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+                const timeString = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}:${date.getMilliseconds()}`;
+
                 return {
                     userName: store.state.userName,
                     content: '',
                     giphy: '',
-                    timeStamp: new Date().toTimeString()
+                    timeStamp: `${dateString} ${timeString}`
                 }
             }
 
@@ -105,7 +109,7 @@
         background: $gray;
 
         .messages {
-            @include flex(flex-end, flex-start, column);
+            @include flex(flex-start, flex-start, column-reverse);
             position: relative;
             overflow: auto;
             width: 100%;

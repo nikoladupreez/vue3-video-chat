@@ -174,8 +174,8 @@ export function useChat() {
 
         // Sort messages based on time send
         messages.sort((a, b) => {
-            return a.timeStamp.localeCompare(b.timeStamp);
-        })
+            return new Date(b.timeStamp) - new Date(a.timeStamp);
+        });
 
         // Store messages
         store.commit('setMessages', messages);

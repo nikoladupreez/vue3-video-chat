@@ -28,7 +28,7 @@ export default {
     },
 
     updateMessages (state, message) {
-        state.messages.push(message)
+        state.messages.unshift(message)
     },
 
     leaveChat (state) {
