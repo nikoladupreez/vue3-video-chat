@@ -19,7 +19,9 @@
             <button
                 class="button-send"
                 :disabled="!inputMessenger"
-                @click="onSend">></button>
+                @click="onSend">
+                <img :src="require(`@/assets/images/send-${!inputMessenger ? 'off' : 'on'}.png`)" alt="send">
+            </button>
         </div>
     </div>
 </template>
@@ -154,13 +156,15 @@
             }
 
             .button-send {
+                margin-top: 2px;
+                border: none;
                 width: 30px;
                 height: 30px;
-                border: none;
                 background: none;
+                cursor: pointer;
 
-                &:not(:disabled) {
-                    color: $blue;
+                img {
+                    height: 25px;
                 }
             }
         }

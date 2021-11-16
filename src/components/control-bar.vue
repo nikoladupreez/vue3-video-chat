@@ -5,19 +5,27 @@
             <button
                 class="button-chat"
                 :class="{ mute: !audioIsOn }"
-                @click="audioIsOn = toggleMediaTrack(audioTrack)">Audio</button>
+                @click="audioIsOn = toggleMediaTrack(audioTrack)">
+                <img :src="require(`@/assets/images/mic-${!audioIsOn ? 'off' : 'on'}.png`)" alt="mic">
+            </button>
             <button
                 class="button-chat"
                 :class="{ mute: !videoIsOn }"
-                @click="videoIsOn = toggleMediaTrack(videoTrack)">Video</button>
+                @click="videoIsOn = toggleMediaTrack(videoTrack)">
+                <img :src="require(`@/assets/images/video-${!videoIsOn ? 'off' : 'on'}.png`)" alt="video">
+            </button>
             <button
                 class="button-chat leave"
-                @click="store.dispatch('leaveChat', router);">Leave</button>
+                @click="store.dispatch('leaveChat', router);">
+                <img src="@/assets/images/phone.png" alt="leave">
+            </button>
         </div>
         <button
             class="button-chat messenger"
             :class="{ open: store.state.showMessenger}"
-            @click="store.commit('toggleMessenger');">Messenger</button>
+            @click="store.commit('toggleMessenger');">
+            <img src="@/assets/images/messenger.png" alt="messenger">
+        </button>
     </div>
 </template>
 
@@ -87,6 +95,16 @@
             &.leave {
                 width: 60px;
                 border-radius: 20px;
+
+                img {
+                    height: 25px;
+                }
+            }
+
+            img {
+                margin-top: 3px;
+                height: 23px;
+                width: auto;
             }
         }
 
