@@ -32,7 +32,7 @@
     import { ref, computed } from 'vue';
     import { useStore } from 'vuex';
     import { useRouter } from 'vue-router';
-    import { useChat } from '@/firebase.js';
+    import { useChat } from '@/service/firebase.js';
 
     export default {
         name: 'ControlBar',

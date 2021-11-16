@@ -7,7 +7,8 @@
                 class="message-container"
                 :class="{local: message.userName === store.state.userName}">
                 <p>{{message.userName}}</p>
-                <div class="message">{{ message.content }}</div>
+                <img v-if="message.giphy" :src="message.giphy" alt="giphy">
+                <div v-else class="message">{{ message.content }}</div>
             </div>
         </div>
         <div class="messenger-bar">
@@ -16,6 +17,11 @@
                 v-model="inputMessenger"
                 placeholder="Type message"
                 @keyup.enter="onSend">
+            <button
+                class="button-giphy"
+                @click="sendGiphy">
+                <img src="@/assets/images/gif.png" alt="gif">
+            </button>
             <button
                 class="button-send"
                 :disabled="!inputMessenger"
@@ -29,7 +35,8 @@
 <script>
     import { ref } from 'vue';
     import { useStore } from 'vuex';
-    import { useChat } from '@/firebase.js'
+    import { useChat } from '@/service/firebase.js'
+    import { getRandomGiphy } from '@/service/giphy-api.js'
 
     export default {
         name: 'Messenger',
@@ -42,17 +49,32 @@
             const inputMessenger = ref('');
 
             // Methods
+            const createMessage = () => {
+                return {
+                    userName: store.state.userName,
+                    content: '',
+                    giphy: '',
+                    timeStamp: new Date().toTimeString()
+                }
+            }
+
             const onSend = async () => {
                 if (!inputMessenger.value) return;
 
-                const message = {
-                    userName: store.state.userName,
-                    content: inputMessenger.value,
-                    timeStamp: new Date().toTimeString()
-                }
+                let message = createMessage();
+                message.content = inputMessenger.value;
 
                 sendMessage(store.state.chatId, message);
                 inputMessenger.value = '';
+            }
+
+            const sendGiphy = async () => {
+                const data = await getRandomGiphy();
+
+                let message = createMessage();
+                message.giphy = data.images.fixed_height_small.url;
+
+                sendMessage(store.state.chatId, message)
             }
 
             // Get messages
@@ -62,6 +84,7 @@
                 store,
                 inputMessenger,
                 onSend,
+                sendGiphy
             }
         },
     }
@@ -149,6 +172,19 @@
             .button-gif {
                 position: absolute;
                 right: 65px;
+            }
+
+            .button-giphy {
+                position: absolute;
+                right: 45px;
+                border: none;
+                height: 20px;
+                background: none;
+                cursor: pointer;
+
+                img {
+                    height: 20px;
+                }
             }
 
             .button-send {
