@@ -1,0 +1,28 @@
+/* Positioning
+----------------------------------------------------------------- */
+@mixin flex($justify: flex-start, $align: stretch, $direction: row) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $direction;
+}
+
+/* Media query mixins
+----------------------------------------------------------------- */
+@mixin mobile {
+    @media (min-width: #{$mobile}) and (max-width: #{$tablet}) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: #{$tablet}) and (max-width: #{$desktop}) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: #{$desktop}) {
+        @content;
+    }
+}

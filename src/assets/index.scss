@@ -1,0 +1,6 @@
+/* Global css - all variables and mixins, so they are available in all components.
+Don't set any styling except for variables here! */
+
+@import 'variables.scss';
+@import 'mixins.scss';
+@import 'typography.scss';
