@@ -19,8 +19,8 @@ export default {
         state.remoteStream = stream;
     },
 
-    toggleMessenger (state) {
-        state.showMessenger = !state.showMessenger;
+    toggleMessenger (state, forceClose) {
+        state.showMessenger = forceClose ? false : !state.showMessenger;
     },
 
     setMessages (state, messages) {
