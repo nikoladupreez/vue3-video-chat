@@ -3,7 +3,7 @@ import 'firebase/firestore';
 
 // Initialize
 const config = {
-    apiKey: 'AIzaSyABjmiAvg0W3NkdKVJ2OTnTHlnyyfgO8ig',
+    apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
     authDomain: 'video-chat-app-83046.firebaseapp.com',
     projectId: 'video-chat-app-83046',
     storageBucket: 'video-chat-app-83046.appspot.com',
